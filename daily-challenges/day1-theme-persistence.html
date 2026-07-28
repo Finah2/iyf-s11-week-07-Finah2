@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1 — Theme Persistence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Georgia, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        body.light { background: #f5f5f5; color: #222; }
+        body.dark { background: #1a1a2e; color: #ddd; }
+
+        .wrapper { max-width: 600px; margin: 0 auto; }
+
+        h1 { font-size: 2rem; margin-bottom: 0.25rem; transition: color 0.4s; }
+        body.dark h1 { color: #39ff14; }
+        body.light h1 { color: #1a1a2e; }
+
+        .subtitle { font-size: 0.85rem; margin-bottom: 0.5rem; }
+        body.dark .subtitle { color: #555; }
+        body.light .subtitle { color: #888; }
+
+        p.desc { margin-bottom: 2rem; line-height: 1.7; transition: color 0.4s; }
+        body.dark p.desc { color: #aaa; }
+        body.light p.desc { color: #555; }
+
+        .toggle-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; }
+
+        .toggle {
+            width: 56px; height: 28px;
+            border-radius: 14px;
+            cursor: pointer;
+            position: relative;
+            border: none;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        body.light .toggle { background: #ccc; }
+        body.dark .toggle { background: #39ff14; }
+
+        .toggle::after {
+            content: '';
+            width: 22px; height: 22px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px; left: 3px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+
+        body.dark .toggle::after { transform: translateX(28px); }
+
+        .toggle-label { font-size: 0.9rem; }
+        body.dark .toggle-label { color: #aaa; }
+        body.light .toggle-label { color: #666; }
+
+        .card {
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #39ff14;
+            transition: background 0.4s, box-shadow 0.4s;
+        }
+
+        body.light .card { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        body.dark .card { background: #16213e; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+
+        .card h3 { font-size: 1rem; margin-bottom: 0.5rem; transition: color 0.4s; }
+        body.dark .card h3 { color: #fff; }
+        body.light .card h3 { color: #1a1a2e; }
+
+        .card p { font-size: 0.9rem; line-height: 1.6; transition: color 0.4s; }
+        body.dark .card p { color: #aaa; }
+        body.light .card p { color: #666; }
+
+        .saved-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            margin-left: 0.5rem;
+            transition: all 0.4s;
+        }
+        body.dark .saved-badge { background: rgba(57,255,20,0.1); color: #39ff14; border: 1px solid #39ff14; }
+        body.light .saved-badge { background: rgba(26,26,46,0.1); color: #1a1a2e; border: 1px solid #1a1a2e; }
+    </style>
+</head>
+<body class="light">
+
+<div class="wrapper">
+    <h1>Theme Persistence <span class="saved-badge" id="saved-badge">💾 Saved</span></h1>
+    <p class="subtitle">Day 1 — Week 7</p>
+    <p class="desc">Toggle the theme below. Your preference is saved to <code style="font-size:0.85em;">localStorage</code> — refresh the page and it will remember which mode you chose.</p>
+
+    <div class="toggle-row">
+        <span class="toggle-label">☀️ Light</span>
+        <button class="toggle" id="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()"></button>
+        <span class="toggle-label">🌙 Dark</span>
+    </div>
+
+    <div class="card">
+        <h3>How it works</h3>
+        <p>When you toggle, we save <code>"dark"</code> or <code>"light"</code> to localStorage. On page load, we read it back and apply the class before anything renders — so there's no flash of the wrong theme.</p>
+    </div>
+
+    <div class="card">
+        <h3>Why this matters</h3>
+        <p>User preferences should survive page refreshes. Without localStorage, every visit starts from scratch. With it, the app feels like it actually remembers you.</p>
+    </div>
+
+    <div class="card">
+        <h3>Try it!</h3>
+        <p>Toggle to dark mode, then refresh the page. It should stay dark. Toggle back to light and refresh again — it stays light. That's localStorage doing its job.</p>
+    </div>
+</div>
+
+<script>
+    const THEME_KEY = "finah_theme";
+
+    function applyTheme(theme) {
+        document.body.className = theme;
+        document.getElementById("saved-badge").textContent = theme === "dark" ? "🌙 Dark saved" : "☀️ Light saved";
+    }
+
+    function toggleTheme() {
+        const current = document.body.classList.contains("dark") ? "dark" : "light";
+        const next = current === "dark" ? "light" : "dark";
+        localStorage.setItem(THEME_KEY, next);
+        applyTheme(next);
+    }
+
+    // Apply saved theme immediately on load — no flash
+    const saved = localStorage.getItem(THEME_KEY) || "light";
+    applyTheme(saved);
+</script>
+
+</body>
+</html>

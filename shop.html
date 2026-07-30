@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nairobi Street Market 🇰🇪</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --green: #39ff14;
+            --navy: #1a1a2e;
+            --dark: #16213e;
+            --red: #e74c3c;
+        }
+
+        body { font-family: 'Open Sans', sans-serif; background: #f5f5f5; color: #222; }
+
+        /* Header */
+        header {
+            background: var(--navy);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { color: var(--green); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.2rem; }
+        .logo span { color: #fff; font-size: 0.85rem; font-weight: 400; display: block; }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            background: var(--green);
+            color: var(--navy);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .cart-icon:hover { background: #28b30e; transform: translateY(-1px); }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px; right: -8px;
+            background: var(--red);
+            color: #fff;
+            border-radius: 50%;
+            width: 20px; height: 20px;
+            font-size: 0.7rem;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+        }
+
+        /* Layout */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Products */
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--navy);
+            border-left: 4px solid var(--green);
+            padding-left: 0.75rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+
+        .product-emoji {
+            font-size: 3.5rem;
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--navy), var(--dark));
+        }
+
+        .product-info { padding: 1rem; }
+        .product-name { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; color: var(--navy); }
+        .product-desc { font-size: 0.78rem; color: #888; margin-bottom: 0.75rem; line-height: 1.5; }
+        .product-price { color: var(--green); font-weight: 700; font-size: 1rem; font-family: 'Poppins', sans-serif; }
+
+        .add-btn {
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.6rem;
+            background: var(--navy);
+            color: var(--green);
+            border: 2px solid var(--green);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .add-btn:hover { background: var(--green); color: var(--navy); }
+        .add-btn.added { background: var(--green); color: var(--navy); }
+
+        /* Cart */
+        .cart-panel {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+
+        .cart-header {
+            background: var(--navy);
+            color: #fff;
+            padding: 1.2rem 1.5rem;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 { font-family: 'Poppins', sans-serif; font-size: 1.1rem; }
+
+        #clear-cart-btn {
+            background: none;
+            border: 1px solid #444;
+            color: #888;
+            padding: 0.3rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            transition: all 0.3s;
+        }
+        #clear-cart-btn:hover { border-color: var(--red); color: var(--red); }
+
+        #cart-items { padding: 1rem 1.5rem; min-height: 120px; }
+
+        .cart-empty { text-align: center; color: #ccc; padding: 2rem; font-size: 0.9rem; }
+        .cart-empty .emoji { font-size: 2rem; margin-bottom: 0.5rem; }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-emoji { font-size: 1.5rem; flex-shrink: 0; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-size: 0.85rem; font-weight: 600; color: var(--navy); }
+        .cart-item-price { font-size: 0.78rem; color: #888; }
+
+        .qty-controls { display: flex; align-items: center; gap: 0.4rem; }
+        .qty-btn {
+            width: 24px; height: 24px;
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .qty-btn:hover { border-color: var(--green); background: var(--green); color: var(--navy); }
+        .qty-display { font-size: 0.85rem; font-weight: 600; min-width: 20px; text-align: center; }
+
+        .remove-btn {
+            background: none; border: none;
+            color: #ddd; cursor: pointer; font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .remove-btn:hover { color: var(--red); }
+
+        .cart-footer { padding: 1.2rem 1.5rem; border-top: 2px solid #f0f0f0; }
+        .cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .total-label { font-size: 0.9rem; color: #888; }
+        .total-amount { font-family: 'Poppins', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--green);
+            color: var(--navy);
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .checkout-btn:hover { background: #28b30e; transform: translateY(-1px); }
+        .checkout-btn:disabled { background: #ccc; color: #888; cursor: not-allowed; transform: none; }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--navy);
+            color: var(--green);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--green);
+            font-size: 0.9rem;
+            z-index: 999;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .layout { grid-template-columns: 1fr; }
+            .cart-panel { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        🇰🇪 Nairobi Street Market
+        <span>Fresh from the mtaa — order online!</span>
+    </div>
+    <button class="cart-icon" onclick="scrollToCart()">
+        🛒 Cart
+        <span class="cart-badge" id="cart-badge">0</span>
+    </button>
+</header>
+
+<div class="layout">
+    <div>
+        <h2 class="section-title">Today's Menu</h2>
+        <div class="products-grid" id="products-grid"></div>
+    </div>
+
+    <div class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2>🛒 Your Order</h2>
+            <button id="clear-cart-btn" onclick="clearCart()">Clear all</button>
+        </div>
+        <div id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span class="total-label">Total</span>
+                <span class="total-amount" id="cart-total">KSh 0</span>
+            </div>
+            <button class="checkout-btn" id="checkout-btn" onclick="checkout()">
+                ✅ Place Order
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ================================
+    // STATE
+    // ================================
+    const CART_KEY = "finah_nairobi_cart";
+
+    const state = {
+        products: [
+            { id: 1, name: "Mandazi", emoji: "🍩", price: 10, desc: "Freshly fried, lightly sweetened. Two pieces per serving." },
+            { id: 2, name: "Chapati", emoji: "🫓", price: 20, desc: "Soft, layered, and made with love. Goes with everything." },
+            { id: 3, name: "Nyama Choma", emoji: "🍖", price: 350, desc: "Grilled goat meat with kachumbari. The classic." },
+            { id: 4, name: "Githeri", emoji: "🫘", price: 50, desc: "Maize and beans cooked together. Simple, filling, perfect." },
+            { id: 5, name: "Smokie", emoji: "🌭", price: 30, desc: "Smokie pasua with kachumbari and chili sauce." },
+            { id: 6, name: "Mutura", emoji: "🥩", price: 80, desc: "Kenyan blood sausage — an acquired taste worth acquiring." },
+            { id: 7, name: "Mahindi Choma", emoji: "🌽", price: 30, desc: "Roasted maize with salt and lemon. Street food royalty." },
+            { id: 8, name: "Chai", emoji: "☕", price: 20, desc: "Strong Kenyan tea with milk. The answer to everything." }
+        ],
+        cart: []
+    };
+
+    // ================================
+    // STORAGE
+    // ================================
+    function saveCart() {
+        localStorage.setItem(CART_KEY, JSON.stringify(state.cart));
+    }
+
+    function loadCart() {
+        const saved = localStorage.getItem(CART_KEY);
+        if (saved) state.cart = JSON.parse(saved);
+    }
+
+    // ================================
+    // CART OPERATIONS
+    // ================================
+    function addToCart(productId) {
+        const existing = state.cart.find(item => item.productId === productId);
+
+        if (existing) {
+            existing.quantity++;
+        } else {
+            state.cart.push({ productId, quantity: 1 });
+        }
+
+        saveCart();
+        renderCart();
+        updateCartBadge();
+
+        const product = state.products.find(p => p.id === productId);
+        showToast(`${product.emoji} ${product.name} added!`);
+    }
+
+    function updateQuantity(productId, quantity) {
+        if (quantity <= 0) {
+            removeFromCart(productId);
+            return;
+        }
+        const item = state.cart.find(i => i.productId === productId);
+        if (item) {
+            item.quantity = quantity;
+            saveCart();
+            renderCart();
+            updateCartBadge();
+        }
+    }
+
+    function removeFromCart(productId) {
+        state.cart = state.cart.filter(i => i.productId !== productId);
+        saveCart();
+        renderCart();
+        updateCartBadge();
+    }
+
+    function clearCart() {
+        if (state.cart.length === 0) return;
+        if (confirm("Clear your entire order?")) {
+            state.cart = [];
+            saveCart();
+            renderCart();
+            updateCartBadge();
+        }
+    }
+
+    function getCartTotal() {
+        return state.cart.reduce((total, item) => {
+            const product = state.products.find(p => p.id === item.productId);
+            return total + (product.price * item.quantity);
+        }, 0);
+    }
+
+    function getCartCount() {
+        return state.cart.reduce((count, item) => count + item.quantity, 0);
+    }
+
+    // ================================
+    // RENDER PRODUCTS
+    // ================================
+    function renderProducts() {
+        const grid = document.getElementById("products-grid");
+        grid.innerHTML = "";
+
+        state.products.forEach(product => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+            card.id = `product-${product.id}`;
+            card.innerHTML = `
+                <div class="product-emoji">${product.emoji}</div>
+                <div class="product-info">
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-desc">${product.desc}</div>
+                    <div class="product-price">KSh ${product.price}</div>
+                    <button class="add-btn" onclick="addToCart(${product.id})">+ Add to Order</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // ================================
+    // RENDER CART
+    // ================================
+    function renderCart() {
+        const cartItems = document.getElementById("cart-items");
+        const checkoutBtn = document.getElementById("checkout-btn");
+
+        if (state.cart.length === 0) {
+            cartItems.innerHTML = `
+                <div class="cart-empty">
+                    <div class="emoji">🛒</div>
+                    <p>Your order is empty.<br>Pick something from the menu!</p>
+                </div>
+            `;
+            document.getElementById("cart-total").textContent = "KSh 0";
+            checkoutBtn.disabled = true;
+            return;
+        }
+
+        checkoutBtn.disabled = false;
+        cartItems.innerHTML = "";
+
+        state.cart.forEach(item => {
+            const product = state.products.find(p => p.id === item.productId);
+            const div = document.createElement("div");
+            div.className = "cart-item";
+            div.innerHTML = `
+                <span class="cart-item-emoji">${product.emoji}</span>
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${product.name}</div>
+                    <div class="cart-item-price">KSh ${product.price} each</div>
+                </div>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="updateQuantity(${product.id}, ${item.quantity - 1})">−</button>
+                    <span class="qty-display">${item.quantity}</span>
+                    <button class="qty-btn" onclick="updateQuantity(${product.id}, ${item.quantity + 1})">+</button>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${product.id})">✕</button>
+            `;
+            cartItems.appendChild(div);
+        });
+
+        document.getElementById("cart-total").textContent = `KSh ${getCartTotal().toLocaleString()}`;
+    }
+
+    function updateCartBadge() {
+        const count = getCartCount();
+        document.getElementById("cart-badge").textContent = count;
+    }
+
+    function checkout() {
+        const total = getCartTotal();
+        const items = state.cart.map(item => {
+            const product = state.products.find(p => p.id === item.productId);
+            return `${product.emoji} ${product.name} x${item.quantity}`;
+        }).join("\n");
+
+        alert(`✅ Order placed!\n\n${items}\n\nTotal: KSh ${total.toLocaleString()}\n\nAsante sana! 🙏`);
+
+        state.cart = [];
+        saveCart();
+        renderCart();
+        updateCartBadge();
+    }
+
+    function scrollToCart() {
+        document.getElementById("cart-panel").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function showToast(message) {
+        const existing = document.querySelector(".toast");
+        if (existing) existing.remove();
+
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
+
+    // ================================
+    // INITIALIZE
+    // ================================
+    loadCart();
+    renderProducts();
+    renderCart();
+    updateCartBadge();
+</script>
+
+</body>
+</html>

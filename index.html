@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 7 — JS Best Practices</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --green: #39ff14; --navy: #1a1a2e; --dark: #16213e; --muted: #666; }
+    body { font-family: 'Open Sans', sans-serif; background: #f5f5f5; color: #222; }
+    nav { background: var(--navy); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .logo { color: var(--green); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.2rem; }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a { color: #ccc; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+    nav a:hover, nav a.active { color: var(--green); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 25px; height: 2px; background: #fff; }
+    .hero { background: linear-gradient(135deg, var(--navy), var(--dark)); color: #fff; padding: 4rem 2rem; text-align: center; }
+    .hero h1 { font-family: 'Poppins', sans-serif; font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .hero h1 span { color: var(--green); }
+    .hero p { color: #aaa; font-size: 1.1rem; margin-bottom: 2rem; }
+    .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 0.75rem 1.8rem; border-radius: 6px; font-weight: 600; font-family: 'Poppins', sans-serif; text-decoration: none; transition: all 0.3s; border: 2px solid transparent; }
+    .btn-primary { background: var(--green); color: var(--navy); }
+    .btn-primary:hover { background: #28b30e; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(57,255,20,0.3); }
+    .btn-secondary { background: transparent; color: var(--green); border-color: var(--green); }
+    .btn-secondary:hover { background: var(--green); color: var(--navy); transform: translateY(-2px); }
+    .section { max-width: 1000px; margin: 3rem auto; padding: 0 1.5rem; }
+    .section h2 { font-family: 'Poppins', sans-serif; font-size: 1.6rem; margin-bottom: 1.5rem; border-left: 4px solid var(--green); padding-left: 0.75rem; color: var(--navy); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+    .card { background: #fff; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-top: 3px solid var(--green); transition: transform 0.3s, box-shadow 0.3s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+    .card h3 { font-family: 'Poppins', sans-serif; margin-bottom: 0.75rem; color: var(--navy); }
+    .card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+    .card code { background: #f0f0f0; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.82rem; }
+    .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .file-list { background: var(--navy); color: #39ff14; padding: 1.5rem; border-radius: 8px; font-family: monospace; font-size: 0.9rem; line-height: 2; }
+    .file-list .comment { color: #444; }
+    footer { background: var(--navy); color: #aaa; text-align: center; padding: 1.5rem; margin-top: 3rem; font-size: 0.875rem; }
+    @media (max-width: 767px) {
+      .hamburger { display: flex; }
+      nav ul { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--navy); flex-direction: column; padding: 1rem 2rem; gap: 1rem; }
+      nav ul.open { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">FN</div>
+  <ul id="navLinks">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="shop.html" style="color:#39ff14; font-weight:600;">🇰🇪 Market</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="hero">
+  <h1>Week 7: <span>JS Best Practices</span></h1>
+  <p>This week I learned how to write code that actually lasts — persistent data, clean structure, and code a teammate could actually read.</p>
+  <div class="btn-group">
+    <a href="shop.html" class="btn btn-primary">🇰🇪 Nairobi Market</a>
+    <a href="todo.html" class="btn btn-secondary">📚 School Tasks</a>
+  </div>
+</div>
+
+<main class="section">
+  <h2>What I Built This Week</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="icon">💾</div>
+      <h3>localStorage</h3>
+      <p>Learned to persist data across page refreshes using <code>localStorage</code>. Objects need to be serialized with <code>JSON.stringify</code> first — you can't just store them directly.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🛒</div>
+      <h3>Nairobi Street Market</h3>
+      <p>Built a full shopping cart for Kenyan street food — mandazi, chapati, nyama choma and more. Cart persists across refreshes. Add items, adjust quantity, place your order.</p>
+    </div>
+    <div class="card">
+      <div class="icon">📚</div>
+      <h3>Persistent To-Do List</h3>
+      <p>Upgraded the Week 5 school task manager so tasks survive page refreshes. Added centralized state management, created-date display, and an export to clipboard feature.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🧠</div>
+      <h3>State Management</h3>
+      <p>Centralized all app state into one object. Every change goes through <code>setState()</code> which saves to localStorage and re-renders. Much cleaner than scattered variables.</p>
+    </div>
+    <div class="card">
+      <div class="icon">✨</div>
+      <h3>Clean Code</h3>
+      <p>No more magic numbers. Named constants, single-responsibility functions, meaningful variable names. The refactor challenge showed me how messy my early code actually was.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🔍</div>
+      <h3>Self Code Review</h3>
+      <p>Reviewed the Week 6 weather dashboard against a proper checklist. Found 3 real bugs and 4 improvements. Gave it 7/10 — honest but fair.</p>
+    </div>
+  </div>
+
+  <h2>Project Files</h2>
+  <div class="file-list">
+    shop.html &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Nairobi street market — shopping cart</span><br>
+    todo.html &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># upgraded school task manager with persistence</span><br>
+    js/<br>
+    └── storage.js &nbsp;&nbsp;&nbsp;<span class="comment"># localStorage helpers, clean code examples, debug fix</span><br>
+    daily-challenges/<br>
+    ├── day1-theme-persistence.html<br>
+    ├── day2-recent-searches.html<br>
+    ├── day3-form-autosave.html<br>
+    ├── day4-refactor.html<br>
+    └── day5-code-review.html<br>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2026 Finah Nyamwaya — Week 7: JavaScript Best Practices</p>
+</footer>
+
+</body>
+</html>

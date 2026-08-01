@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 4 — Refactor Challenge</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, sans-serif; background: #1a1a2e; color: #fff; min-height: 100vh; padding: 2rem; }
+        .wrapper { max-width: 750px; margin: 0 auto; }
+        h1 { color: #39ff14; font-size: 2rem; margin-bottom: 0.25rem; }
+        .subtitle { color: #555; font-size: 0.85rem; margin-bottom: 0.5rem; }
+        p.desc { color: #aaa; margin-bottom: 2rem; line-height: 1.7; }
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+        .block { background: #16213e; border-radius: 8px; padding: 1.5rem; }
+        .block h3 { font-size: 0.9rem; margin-bottom: 1rem; }
+        .block h3.bad { color: #e74c3c; }
+        .block h3.good { color: #39ff14; }
+        pre { font-family: monospace; font-size: 0.78rem; color: #aaa; line-height: 1.8; white-space: pre-wrap; }
+        .kw { color: #39ff14; }
+        .str { color: #f39c12; }
+        .cm { color: #444; }
+        .num { color: #3498db; }
+        .improvements { background: #16213e; border-radius: 8px; padding: 1.5rem; }
+        .improvements h3 { color: #39ff14; margin-bottom: 1rem; font-size: 1rem; }
+        .item { display: flex; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #222; font-size: 0.88rem; color: #aaa; line-height: 1.6; }
+        .item:last-child { border-bottom: none; }
+        .item .icon { flex-shrink: 0; font-size: 1rem; }
+        @media (max-width: 550px) { .comparison { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>Refactor Challenge</h1>
+    <p class="subtitle">Day 4 — Week 7</p>
+    <p class="desc">The same grade calculator — written badly, then refactored. The refactored version is easier to read, easier to test, and easier to change later.</p>
+
+    <div class="comparison">
+        <div class="block">
+            <h3 class="bad">❌ Before — Messy</h3>
+            <pre><span class="cm">// magic numbers everywhere</span>
+<span class="cm">// vague names, no error handling</span>
+<span class="cm">// does 5 things at once</span>
+
+<span class="kw">function</span> calc(s) {
+  <span class="kw">let</span> r = <span class="str">""</span>;
+  <span class="kw">if</span> (s >= <span class="num">90</span>) r = <span class="str">"A"</span>;
+  <span class="kw">else if</span> (s >= <span class="num">80</span>) r = <span class="str">"B"</span>;
+  <span class="kw">else if</span> (s >= <span class="num">70</span>) r = <span class="str">"C"</span>;
+  <span class="kw">else if</span> (s >= <span class="num">60</span>) r = <span class="str">"D"</span>;
+  <span class="kw">else</span> r = <span class="str">"F"</span>;
+  document.getElementById(<span class="str">"x"</span>)
+    .innerHTML = <span class="str">"Grade: "</span> + r;
+  localStorage.setItem(
+    <span class="str">"g"</span>, r);
+  console.log(r);
+  <span class="kw">return</span> r;
+}</pre>
+        </div>
+        <div class="block">
+            <h3 class="good">✅ After — Clean</h3>
+            <pre><span class="cm">// named constants, clear intent</span>
+<span class="cm">// one function, one job</span>
+<span class="cm">// proper error handling</span>
+
+<span class="kw">const</span> GRADE_THRESHOLDS = {
+  A: <span class="num">90</span>, B: <span class="num">80</span>,
+  C: <span class="num">70</span>, D: <span class="num">60</span>
+};
+
+<span class="kw">function</span> getLetterGrade(score) {
+  <span class="kw">if</span> (score < <span class="num">0</span> || score > <span class="num">100</span>) {
+    <span class="kw">throw new</span> Error(
+      <span class="str">"Score must be 0–100"</span>);
+  }
+  <span class="kw">for</span> (<span class="kw">const</span> [grade, min]
+    <span class="kw">of</span> Object.entries(
+      GRADE_THRESHOLDS)) {
+    <span class="kw">if</span> (score >= min) <span class="kw">return</span> grade;
+  }
+  <span class="kw">return</span> <span class="str">"F"</span>;
+}
+
+<span class="kw">function</span> displayGrade(score) {
+  <span class="kw">const</span> grade = getLetterGrade(score);
+  updateUI(grade);
+  saveGrade(grade);
+}</pre>
+        </div>
+    </div>
+
+    <div class="improvements">
+        <h3>What Changed & Why</h3>
+        <div class="item"><span class="icon">✅</span><span><strong>Named constants</strong> — <code>GRADE_THRESHOLDS</code> instead of scattered magic numbers. Change the threshold once, it updates everywhere.</span></div>
+        <div class="item"><span class="icon">✅</span><span><strong>Meaningful names</strong> — <code>getLetterGrade(score)</code> tells you exactly what it does. <code>calc(s)</code> tells you nothing.</span></div>
+        <div class="item"><span class="icon">✅</span><span><strong>Single responsibility</strong> — <code>getLetterGrade</code> only calculates. <code>displayGrade</code> handles the UI. <code>saveGrade</code> handles storage. Each function does one thing.</span></div>
+        <div class="item"><span class="icon">✅</span><span><strong>Error handling</strong> — invalid scores throw a proper error with a clear message instead of silently returning a wrong grade.</span></div>
+        <div class="item"><span class="icon">✅</span><span><strong>Testable</strong> — the refactored <code>getLetterGrade</code> is a pure function. You can test it without touching the DOM or localStorage.</span></div>
+    </div>
+</div>
+
+</body>
+</html>

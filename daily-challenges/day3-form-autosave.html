@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 3 — Form Auto-Save</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, sans-serif; background: #1a1a2e; color: #fff; min-height: 100vh; padding: 2rem; }
+        .wrapper { max-width: 550px; margin: 0 auto; }
+        h1 { color: #39ff14; font-size: 2rem; margin-bottom: 0.25rem; }
+        .subtitle { color: #555; font-size: 0.85rem; margin-bottom: 0.5rem; }
+        p.desc { color: #aaa; margin-bottom: 2rem; line-height: 1.7; }
+        .form-card { background: #16213e; border-radius: 8px; padding: 2rem; }
+        label { display: block; font-size: 0.85rem; color: #aaa; margin-bottom: 0.3rem; margin-top: 1rem; }
+        label:first-of-type { margin-top: 0; }
+        input, textarea {
+            width: 100%; padding: 0.75rem 1rem;
+            background: #1a1a2e; border: 2px solid #333;
+            border-radius: 6px; color: #fff;
+            font-size: 0.95rem; font-family: Georgia, sans-serif;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus { outline: none; border-color: #39ff14; }
+        textarea { resize: vertical; min-height: 100px; }
+        .save-status {
+            font-size: 0.78rem; color: #39ff14;
+            margin-top: 0.75rem; text-align: right;
+            transition: opacity 0.3s;
+        }
+        button {
+            width: 100%; margin-top: 1.5rem;
+            padding: 0.85rem; background: #39ff14;
+            color: #1a1a2e; border: none; border-radius: 6px;
+            font-weight: bold; font-size: 1rem; cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover { background: #28b30e; }
+        .success { background: rgba(57,255,20,0.1); border: 1px solid #39ff14; color: #39ff14; padding: 1rem; border-radius: 6px; text-align: center; display: none; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>Form Auto-Save</h1>
+    <p class="subtitle">Day 3 — Week 7</p>
+    <p class="desc">Fill in the form below. Your data is saved to <code style="font-size:0.85em;">sessionStorage</code> every 5 seconds. Refresh the page — your data will still be there. Submit to clear it.</p>
+
+    <div class="form-card">
+        <form id="auto-form">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" name="fullname" placeholder="Finah Nyamwaya">
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="finah@gmail.com">
+
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="What's this about?">
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Write something here..."></textarea>
+
+            <p class="save-status" id="save-status">⏳ Auto-saving every 5 seconds...</p>
+            <button type="submit">✅ Submit & Clear</button>
+        </form>
+        <div class="success" id="success-msg">🎉 Submitted! Saved data cleared.</div>
+    </div>
+</div>
+
+<script>
+    const FORM_PREFIX = "finah_form_";
+    const form = document.getElementById("auto-form");
+    const inputs = form.querySelectorAll("input, textarea");
+    const saveStatus = document.getElementById("save-status");
+
+    // Restore on load
+    inputs.forEach(input => {
+        const saved = sessionStorage.getItem(FORM_PREFIX + input.name);
+        if (saved) input.value = saved;
+    });
+
+    // Auto-save every 5 seconds
+    function autoSave() {
+        inputs.forEach(input => {
+            sessionStorage.setItem(FORM_PREFIX + input.name, input.value);
+        });
+        saveStatus.textContent = `💾 Saved at ${new Date().toLocaleTimeString()}`;
+        setTimeout(() => {
+            saveStatus.textContent = "⏳ Auto-saving every 5 seconds...";
+        }, 2000);
+    }
+
+    setInterval(autoSave, 5000);
+
+    // Also save on input
+    inputs.forEach(input => {
+        input.addEventListener("input", () => {
+            sessionStorage.setItem(FORM_PREFIX + input.name, input.value);
+        });
+    });
+
+    // Clear on submit
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+        inputs.forEach(input => {
+            sessionStorage.removeItem(FORM_PREFIX + input.name);
+            input.value = "";
+        });
+        saveStatus.textContent = "✅ Cleared!";
+        document.getElementById("success-msg").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("success-msg").style.display = "none";
+            saveStatus.textContent = "⏳ Auto-saving every 5 seconds...";
+        }, 3000);
+    });
+</script>
+
+</body>
+</html>

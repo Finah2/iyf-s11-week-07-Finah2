@@ -283,7 +283,7 @@
         span.textContent = todo.text;
         span.dataset.action = "toggle";
         span.dataset.id = todo.id;
-        span.addEventListener("dblclick", () => startEditing(todo.id, li, span));
+        span.addEventListener("dblclick", () => startEditing(parseFloat(todo.id), li, span));
 
         const meta = document.createElement("span");
         meta.className = "todo-meta";
@@ -374,7 +374,7 @@
 
     document.getElementById("todo-list").addEventListener("click", e => {
         const action = e.target.dataset.action;
-        const id = parseInt(e.target.dataset.id);
+        const id = parseFloat(e.target.dataset.id);
         if (action === "toggle") toggleTodo(id);
         if (action === "delete") deleteTodo(id);
     });

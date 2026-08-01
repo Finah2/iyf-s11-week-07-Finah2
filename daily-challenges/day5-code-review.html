@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 5 — Code Review</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Georgia, sans-serif; background: #1a1a2e; color: #fff; min-height: 100vh; padding: 2rem; }
+        .wrapper { max-width: 700px; margin: 0 auto; }
+        h1 { color: #39ff14; font-size: 2rem; margin-bottom: 0.25rem; }
+        .subtitle { color: #555; font-size: 0.85rem; margin-bottom: 0.5rem; }
+        p.desc { color: #aaa; margin-bottom: 2rem; line-height: 1.7; }
+        .review-card { background: #16213e; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .review-card h2 { font-size: 1.1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #222; }
+        .review-card h2.pass { color: #39ff14; }
+        .review-card h2.fail { color: #e74c3c; }
+        .review-card h2.warning { color: #f39c12; }
+        .item { display: flex; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid #222; font-size: 0.88rem; color: #aaa; line-height: 1.6; align-items: flex-start; }
+        .item:last-child { border-bottom: none; }
+        .badge { flex-shrink: 0; font-size: 0.8rem; padding: 0.15rem 0.5rem; border-radius: 8px; font-weight: bold; margin-top: 0.1rem; }
+        .badge.good { background: rgba(57,255,20,0.15); color: #39ff14; }
+        .badge.bad { background: rgba(231,76,60,0.15); color: #e74c3c; }
+        .badge.warn { background: rgba(243,156,18,0.15); color: #f39c12; }
+        .score { display: flex; justify-content: space-between; align-items: center; background: #16213e; border-radius: 8px; padding: 1.5rem; border: 2px solid #39ff14; }
+        .score h2 { font-size: 1rem; color: #aaa; }
+        .score .num { font-size: 2.5rem; font-weight: bold; color: #39ff14; font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>Code Review</h1>
+    <p class="subtitle">Day 5 — Week 7</p>
+    <p class="desc">A self-review of the Week 6 Weather Dashboard using the peer review checklist. Honest assessment — what's good, what needs work, and what I'll fix next.</p>
+
+    <div class="review-card">
+        <h2 class="pass">✅ What's Working Well</h2>
+        <div class="item"><span class="badge good">PASS</span><span><strong>Async/await used correctly</strong> — all API calls use try/catch and every error is handled with a proper message to the user.</span></div>
+        <div class="item"><span class="badge good">PASS</span><span><strong>Loading state handled</strong> — spinner shows while fetching, hides when done regardless of success or failure (using finally).</span></div>
+        <div class="item"><span class="badge good">PASS</span><span><strong>localStorage for recent searches</strong> — last 5 searches saved and clickable. Survives page refresh.</span></div>
+        <div class="item"><span class="badge good">PASS</span><span><strong>404 handled separately</strong> — city not found shows a friendly message, not a generic error.</span></div>
+        <div class="item"><span class="badge good">PASS</span><span><strong>response.ok checked</strong> — we verify the response is successful before parsing JSON.</span></div>
+    </div>
+
+    <div class="review-card">
+        <h2 class="fail">❌ Issues Found</h2>
+        <div class="item"><span class="badge bad">FIX</span><span><strong>API key is hardcoded in JS</strong> — anyone can open DevTools and see it. In production this should be in an environment variable or proxied through a backend.</span></div>
+        <div class="item"><span class="badge bad">FIX</span><span><strong>No input sanitization</strong> — the city input isn't trimmed or validated before sending to the API. A blank search hits the API and returns a 400 error.</span></div>
+        <div class="item"><span class="badge bad">FIX</span><span><strong>No debounce on search</strong> — if this had a live search feature, every keystroke would hit the API. The delay function from Week 6 Day 1 should be used here.</span></div>
+    </div>
+
+    <div class="review-card">
+        <h2 class="warning">⚠️ Improvements Needed</h2>
+        <div class="item"><span class="badge warn">IMPROVE</span><span><strong>Functions are too long</strong> — <code>getWeather()</code> does fetching, displaying, and saving. Should be split into smaller functions with one job each.</span></div>
+        <div class="item"><span class="badge warn">IMPROVE</span><span><strong>Magic strings</strong> — <code>"hidden"</code> class is repeated everywhere. Should be a constant: <code>const HIDDEN_CLASS = "hidden"</code>.</span></div>
+        <div class="item"><span class="badge warn">IMPROVE</span><span><strong>No offline handling</strong> — if the network drops, the error message is generic. Could check <code>navigator.onLine</code> first and give a better message.</span></div>
+        <div class="item"><span class="badge warn">IMPROVE</span><span><strong>Units toggle resets on new search</strong> — switching to Fahrenheit and then searching a new city switches back to Celsius. The preference should persist.</span></div>
+    </div>
+
+    <div class="score">
+        <div>
+            <h2>Overall Code Quality Score</h2>
+            <p style="color:#555; font-size:0.8rem; margin-top:0.3rem;">Honest self-assessment</p>
+        </div>
+        <div class="num">7/10</div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Finah Nyamwaya</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">FN</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page-title">
+  <h1>About <span>Me</span></h1>
+</div>
+
+<main class="section">
+  <div style="display:grid; grid-template-columns:1fr; gap:3rem;">
+
+    <div>
+      <h2 style="margin-bottom:1rem;">My Story</h2>
+      <p>I grew up always being curious about how things work — and eventually that curiosity found its way to the web. There's something satisfying about writing a few lines of code and watching something actually show up on screen. It feels like building with LEGOs but for the internet.</p>
+      <p>I'm currently part of the IYF Season 11 program, doing a new project every week. Outside of coding, you'll find me watching movies. Thrillers, sci-fi, anything with a good plot twist.</p>
+    </div>
+
+    <div>
+      <h2 style="margin-bottom:1rem;">Skills</h2>
+      <div class="skills">
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+        <span class="skill-tag">Flexbox</span>
+        <span class="skill-tag">CSS Grid</span>
+        <span class="skill-tag">Git & GitHub</span>
+        <span class="skill-tag">Responsive Design</span>
+        <span class="skill-tag">Accessibility</span>
+      </div>
+    </div>
+
+    <div>
+      <h2 style="margin-bottom:1rem;">Timeline</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h3>IYF Season 11 — Web Development</h3>
+          <span>2026 – Present</span>
+          <p>Building real projects every week — HTML, CSS, JavaScript and beyond.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Self-taught Foundations</h3>
+          <span>2025</span>
+          <p>Started with freeCodeCamp and MDN docs. Learned enough to know how much there is to learn.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>High School</h3>
+          <span>2020 – 2023</span>
+          <p>Graduated with a background in sciences. The logical thinking from maths comes in handy when debugging.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Finah Nyamwaya</h4>
+      <p>A developer learning to build things that matter.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <address style="font-style:normal; font-size:0.875rem; line-height:2; color:#aaa;">
+        📧 <a href="mailto:finahnyamwaya062@gmail.com">finahnyamwaya062@gmail.com</a><br>
+        💼 <a href="https://github.com/Finah2" target="_blank">github.com/Finah2</a><br>
+        📍 Nairobi, Kenya
+      </address>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Finah Nyamwaya. Built with HTML & CSS.</p>
+  </div>
+</footer>
+
+</body>
+</html>

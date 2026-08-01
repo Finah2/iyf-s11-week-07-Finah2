@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Finah Nyamwaya</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">FN</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page-title">
+  <h1>Get in <span>Touch</span></h1>
+</div>
+
+<main class="section">
+  <p style="margin-bottom:2rem; color:var(--color-muted);">Have a question or just want to say hi? Fill out the form and I'll get back to you within a day or two.</p>
+
+  <div class="form-wrapper">
+    <form action="#" method="post">
+      <fieldset>
+        <legend>Your Details</legend>
+        <label for="fullname">Full Name *</label>
+        <input type="text" id="fullname" name="fullname" placeholder="e.g. Finah Nyamwaya" required>
+
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" placeholder="finahnyamwaya062@gmail.com" required>
+
+        <label for="phone">Phone (optional)</label>
+        <input type="tel" id="phone" name="phone" placeholder="+254 700 000000">
+      </fieldset>
+
+      <fieldset>
+        <legend>Your Message</legend>
+        <label for="subject">Subject *</label>
+        <select id="subject" name="subject" required>
+          <option value="" disabled selected>Choose a topic</option>
+          <option value="collaboration">Collaboration</option>
+          <option value="feedback">Feedback on my work</option>
+          <option value="general">General question</option>
+        </select>
+
+        <label for="message">Message * (at least 50 characters)</label>
+        <textarea id="message" name="message" rows="5" minlength="50" placeholder="What's on your mind?" required></textarea>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="newsletter" name="newsletter">
+          <label for="newsletter" style="margin:0;">Subscribe me to your newsletter</label>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+
+    <aside class="form-sidebar">
+      <h3>Other Ways to Reach Me</h3>
+      <address>
+        📍 Nairobi, Kenya (EAT — UTC+3)<br>
+        📧 <a href="mailto:finahnyamwaya062@gmail.com">finahnyamwaya062@gmail.com</a><br>
+        💼 <a href="https://github.com/Finah2" target="_blank">github.com/Finah2</a>
+      </address>
+      <hr style="border-color:#333; margin:1.5rem 0;">
+      <h3>Social</h3>
+      <p>🐙 GitHub — where my code lives</p>
+      <p>💬 Always open to collaboration</p>
+    </aside>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Finah Nyamwaya</h4>
+      <p>A developer learning to build things that matter.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <address style="font-style:normal; font-size:0.875rem; line-height:2; color:#aaa;">
+        📧 <a href="mailto:finahnyamwaya062@gmail.com">finahnyamwaya062@gmail.com</a><br>
+        💼 <a href="https://github.com/Finah2" target="_blank">github.com/Finah2</a><br>
+        📍 Nairobi, Kenya
+      </address>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Finah Nyamwaya. Built with HTML & CSS.</p>
+  </div>
+</footer>
+
+</body>
+</html>

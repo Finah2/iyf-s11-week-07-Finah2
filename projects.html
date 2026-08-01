@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Finah Nyamwaya</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo">FN</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="projects.html" class="active">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page-title">
+  <h1>My <span>Projects</span></h1>
+</div>
+
+<main class="section">
+  <p style="text-align:center; color:var(--color-muted); margin-bottom:2.5rem;">Here's what I've been building. Nothing too fancy yet — but every project taught me something real.</p>
+
+  <div class="projects-grid">
+
+    <article class="card">
+      <img src="https://placehold.co/400x180/1a1a2e/39ff14?text=Portfolio+Site" alt="Screenshot of personal portfolio website">
+      <div class="card-body">
+        <h3>Personal Portfolio</h3>
+        <p>The site you're on right now. Multi-page, fully responsive, built with pure HTML and CSS.</p>
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">GitHub Pages</span>
+        <br><br>
+        <a href="#" class="btn btn-primary" style="font-size:0.85rem; padding:0.5rem 1.2rem;">View Project</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="https://placehold.co/400x180/39ff14/1a1a2e?text=Contact+Form" alt="Screenshot of accessible contact form">
+      <div class="card-body">
+        <h3>Accessible Contact Form</h3>
+        <p>A contact form with proper labels, fieldsets, and validation. Accessibility first.</p>
+        <span class="tag">HTML Forms</span>
+        <span class="tag">Accessibility</span>
+        <br><br>
+        <a href="#" class="btn btn-primary" style="font-size:0.85rem; padding:0.5rem 1.2rem;">View Project</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="https://placehold.co/400x180/16213e/ffffff?text=Blog+Layout" alt="Screenshot of blog layout">
+      <div class="card-body">
+        <h3>Blog Post Layout</h3>
+        <p>A clean blog layout using semantic HTML — article, figure, figcaption, time — properly structured.</p>
+        <span class="tag">Semantic HTML</span>
+        <span class="tag">Typography</span>
+        <br><br>
+        <a href="#" class="btn btn-primary" style="font-size:0.85rem; padding:0.5rem 1.2rem;">View Project</a>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Photo Gallery — 2 real images -->
+  <div class="section-title" style="margin-top:4rem;">
+    <h2>Photo Gallery</h2>
+  </div>
+
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:1rem;">
+
+    <figure style="overflow:hidden; border-radius:6px;">
+      <img src="photo1.jpg" alt="My first photo" style="width:100%; height:200px; object-fit:cover;">
+      <figcaption style="font-size:0.75rem; color:#666; text-align:center; padding:0.4rem 0;">Photo 1</figcaption>
+    </figure>
+
+    <figure style="overflow:hidden; border-radius:6px;">
+      <img src="photo2.jpg" alt="My second photo" style="width:100%; height:200px; object-fit:cover;">
+      <figcaption style="font-size:0.75rem; color:#666; text-align:center; padding:0.4rem 0;">Photo 2</figcaption>
+    </figure>
+
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Finah Nyamwaya</h4>
+      <p>A developer learning to build things that matter.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <address style="font-style:normal; font-size:0.875rem; line-height:2; color:#aaa;">
+        📧 <a href="mailto:finahnyamwaya062@gmail.com">finahnyamwaya062@gmail.com</a><br>
+        💼 <a href="https://github.com/Finah2" target="_blank">github.com/Finah2</a><br>
+        📍 Nairobi, Kenya
+      </address>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Finah Nyamwaya. Built with HTML & CSS.</p>
+  </div>
+</footer>
+
+</body>
+</html>
